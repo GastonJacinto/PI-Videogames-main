@@ -56,18 +56,6 @@ background-color: rgba(248, 248, 248, 0.397);
   color: red;
 }
 
-.platformsCheckContainer {
-  color: grey;
-  display: flex;
-  flex-direction: column;
-}
-
-table {
-  border: rgb(0, 0, 0) solid;
-  background-color: rgba(0, 0, 0, 0.699);
-  color: grey;
-  font-size: 0.8rem;
-}
 .textAreaContainer {
   display: flex;
   justify-content: space-around;
@@ -169,4 +157,29 @@ p {
 .buttonxContainer {
   display: flex;
   flex-direction: row-reverse;
+}
+.genRenders{
+
+  display: flex;
+  height: 1.5rem;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+
+
+}
+.genreXButton{
+  margin: .3rem;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+  background-color: grey;
+  border-radius: 2rem;
+  font-size: .7rem;
+  width: 1rem;
+  height: 1rem;
+  align-items: center;
+  border: white solid .1rem;
 }

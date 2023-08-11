@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_BY_NAME } from "./actionTypes";
+import { GET_BY_NAME,NOT_FOUND } from "./actionTypes";
 
 export function getByName(name) {
   return async function (dispatch) {
@@ -10,7 +10,10 @@ export function getByName(name) {
         payload: data,
       });
     } catch (error) {
-      console.log(error)
+      dispatch({
+        type: NOT_FOUND,
+        payload: false
+      })
     }
   };
 }

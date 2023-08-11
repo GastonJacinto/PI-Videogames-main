@@ -54,12 +54,26 @@
   transform: rotate(360deg);
 }
 .filtersContainer {
-  width: 20%;
-  background-color: red;
+  width: 40%;
+
   display: flex;
   height: 2rem;
   justify-content: space-evenly;
 
 }
+
+.navSelects{
+  transition: .3s ease all;
+  text-align: center;
+  width: 10rem;
+  font-weight: bold;
+  appearance: none;
+  border-radius: 1rem;
+  background-color: grey;
+}
+.navSelects:-ms-expand {
+  display: none;
+}
+
 
 

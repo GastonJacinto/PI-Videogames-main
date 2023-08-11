@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import {
+import {ORDER_RATING,
+
   charged,
   FILTERED_BY_RATING,
   GET_ALL_GAMES,
@@ -14,7 +15,8 @@ import {
   CLEAN_FILTERED,
   FILTERED_BY_SOURCE,
   DELETE_DBGAME,
-  CHARGE_HOME
+  CHARGE_HOME,
+  NOT_FOUND
 } from "../actions/actionTypes";
 
 let initialState = {
@@ -26,7 +28,8 @@ let initialState = {
   platforms: [],
   filteredByName: [],
   backUp: [],
-  
+  found:true,
+  created:false,
   // isLoading: true,  LOADING
 };
 
@@ -39,7 +42,8 @@ function rootReducer(state = initialState, action) {
         backUp: action.payload,
         allGamesBackUp: action.payload,
         allGames: [...action.payload].splice(0, cardPerPage),
-        charged:true,
+      created:false,
+        found:true,
       };
     case GET_GENRES:
       return {
@@ -50,88 +54,108 @@ function rootReducer(state = initialState, action) {
       localStorage.setItem("plats", action.payload);
       return { ...state };
     case GET_BY_NAME:
-      return { ...state, filteredByName: action.payload };
+      return { ...state, filteredByName: action.payload,
+      found:true };
     case CLEAN_FILTERED:
       return {
         ...state,
         filteredByName: action.payload,
         allGamesBackUp: [...state.backUp],
         allGames: [...state.backUp].splice(0, cardPerPage),
-        currentPage:0
+        currentPage:0,
+        found:true,
       };
+      case NOT_FOUND:
+        return{
+...state,
+found:action.payload
+        };
+        case POST_GAME:
+          return {
+            ...state,
+            allGamesBackUp: [...state.allGamesBackUp,action.payload],
+            allGames: [...state.allGamesBackUp, action.payload].splice(0, cardPerPage),
+          created:false,
+            found:true,
+          };
     case ORDER:
       let orderBy = [];
       if (action.payload === "asc") {
-        orderBy = [...state.allGamesBackUp].sort((a, b) => {
+        state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
           if (a.name > b.name) return 1;
           if (a.name < b.name) return -1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...orderBy].splice(0, cardPerPage),
-          allGamesBackUp: orderBy,
+          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
+          allGamesBackUp:  state.allGamesBackUp,
           currentPage: 0,
         };
       } else if (action.payload === "desc") {
-        orderBy = [...state.allGamesBackUp].sort((a, b) => {
+         state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
           if (a.name > b.name) return -1;
           if (a.name < b.name) return 1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...orderBy].splice(0, cardPerPage),
-          allGamesBackUp: orderBy,
+          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
+          allGamesBackUp: state.allGamesBackUp,
           currentPage: 0,
         };
-      } else if (action.payload === "-") {
-        orderBy = [...state.allGamesBackUp].sort((a, b) => {
+      } 
+
+      break;
+    case ORDER_RATING:
+      let orderByRating = [];
+      if (action.payload === "-") {
+        state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
           if (a.rating > b.rating) return 1;
           if (a.rating < b.rating) return -1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...orderBy].splice(0, cardPerPage),
-          allGamesBackUp: orderBy,
+          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
+          allGamesBackUp:    state.allGamesBackUp,
           currentPage: 0,
         };
       } else if (action.payload === "+") {
-        orderBy = [...state.allGamesBackUp].sort((a, b) => {
+        state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
           if (a.rating > b.rating) return -1;
           if (a.rating < b.rating) return 1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...orderBy].splice(0, cardPerPage),
-          allGamesBackUp: orderBy,
+          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
+          allGamesBackUp:    state.allGamesBackUp,
           currentPage: 0,
         };
       }
-
       break;
-    case FILTERED_BY_SOURCE:
+      case FILTERED_BY_SOURCE:
+        console.log("entro filtered source")
       let bySource = [];
       if (action.payload === "db") {
-        bySource = [...state.allGamesBackUp].filter(
+        state.allGamesBackUp = [...state.allGamesBackUp].filter(
           (game) => game.onDB === true
         );
         return {
           ...state,
-          allGames: [...bySource].splice(0, cardPerPage),
-          allGamesBackUp: bySource,
+          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
+          allGamesBackUp: state.allGamesBackUp,
           currentPage: 0,
         };
       } else if (action.payload === "api") {
-        bySource = [...state.allGamesBackUp].filter(
+        state.allGamesBackUp = [...state.allGamesBackUp].filter(
           (game) => game.onDB!==true
         );
         return {
           ...state,
-          allGames: [...bySource].splice(0, cardPerPage),
-          allGamesBackUp: bySource,
+          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
+          allGamesBackUp: state.allGamesBackUp,
           currentPage: 0,
         };
       }
@@ -177,6 +201,7 @@ function rootReducer(state = initialState, action) {
       default:
       return {
         ...state,
+   
       };
   }
 }

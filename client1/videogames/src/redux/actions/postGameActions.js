@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import {POST_GAME} from "./actionTypes"
+import { POST_GAME } from "./actionTypes";
 
 export function postGame(create) {
   return async function (dispatch) {
@@ -8,7 +8,11 @@ export function postGame(create) {
       const response = await axios.post(
         "http://localhost:3001/videogames/",
         create
-      )
+      );
+      dispatch({
+        type:POST_GAME,
+        payload:create
+      })
       return alert(`Your game "${create.name}" has been succesfully created. `);
     } catch (error) {
       return alert(error.response.data.error);

@@ -1,6 +1,7 @@
 import React from "react";
 import style from "./Card.module.css";
 import { Link } from "react-router-dom";
+import Notfound from "../Notfound.jsx/Notfound";
 
 const Card = (props) => {
   // const plats = props.platforms.map((plat, index) => {

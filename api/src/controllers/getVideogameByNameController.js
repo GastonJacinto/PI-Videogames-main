@@ -13,9 +13,9 @@ async function getVideogameByNameController(gameName) {
       name: { [Op.iLike]: `%${gameName}%` },
     },
   });
-  while (page < 6) {
+  while (page < 4) {
     const { data } = await axios(
-      `https://api.rawg.io/api/games?key=${API_KEY}&page=${page}`
+      `https://api.rawg.io/api/games?key=${API_KEY}&page_size=40&page=${page}`
     );
 
     data.results.forEach((game) => {

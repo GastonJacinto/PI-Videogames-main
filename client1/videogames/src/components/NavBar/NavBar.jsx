@@ -7,9 +7,9 @@ import { getByName } from "../../redux/actions/getByNameActions";
 import { orderByName } from "../../redux/actions/orderByNameActions";
 import { cleanFiltered } from "../../redux/actions/cleanFilteredActions";
 import { filteredBySource } from "../../redux/actions/filteredBySourceActions";
+import { orderByRating } from "../../redux/actions/orderByRatingActions";
 
 const NavBar = () => {
-
   const dispatch = useDispatch();
 
   const [name, setName] = React.useState("");
@@ -23,21 +23,28 @@ const NavBar = () => {
   }
 
   function searchByName(name) {
+    const search = document.getElementById("search")
+search.innerHTML = ""
     dispatch(getByName(name));
   }
 
   function filtering(event) {
-    if (event.target.value !== "Source...") {
+    if (event.target.value !== "SOURCE...") {
       dispatch(filteredBySource(event.target.value));
     }
   }
 
-  function ordering(event) {
-    if (event.target.value !== "Select order") {
+  function orderName(event) {
+    if (event.target.value !== "ORDER BY NAME...") {
       dispatch(orderByName(event.target.value));
     }
   }
 
+  function orderRating(event) {
+    if (event.target.value !== "ORDER BY RATING...") {
+      dispatch(orderByRating(event.target.value));
+    }
+  }
   return (
     <div className={style.navBarContainer}>
       <div className={style.imgNavBarContainer}>
@@ -63,28 +70,32 @@ const NavBar = () => {
       </div>
       <div className={style.filtersContainer}>
         <button
+        className={style.navSelects}
           onClick={() => {
             clean();
           }}
         >
-          Clear filters
+          CLEAR FILTERS
         </button>
-        <select onChange={ordering} name="filters" id="">
-          <option selected>Select order</option>
+        <select className={style.navSelects}onChange={orderName} name="filters" id="">
+          <option selected>ORDER BY NAME...</option>
           <option value="asc">A-Z</option>
           <option value="desc">Z-A</option>
+        </select>
+      
+        <select className={style.navSelects}onChange={orderRating} name="rating" id="">
+          <option selected>ORDER BY RATING...</option>
           <option value="+">Rating +</option>
           <option value="-">Rating -</option>
         </select>
-        <select onChange={filtering} name="source" id="">
-          <option selected>Source...</option>
+        <select className={style.navSelects}onChange={filtering} name="source" id="">
+          <option selected>SOURCE...</option>
           <option value="db">Database</option>
           <option value="api">API</option>
         </select>
       </div>
       <div>
-        <input onChange={handleChange} value={name} type="search" />
-        <button
+      <button
           onClick={() => {
             searchByName(name);
           }}
@@ -92,6 +103,8 @@ const NavBar = () => {
         >
           SEARCH
         </button>
+        <input className={style.navSelects}onChange={handleChange} id="search"value={name} type="search" />
+      
       </div>
     </div>
   );

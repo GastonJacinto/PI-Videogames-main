@@ -4,17 +4,14 @@ import React, { useEffect } from "react";
 import style from "./Create.module.css";
 import { postGame } from "../../redux/actions/postGameActions";
 import { useDispatch, useSelector } from "react-redux";
-import plataformas from "./plataformas";
+
 import { getGenres } from "../../redux/actions/getGenresActions";
-import { all } from "axios";
+
 import { getAllGames } from "../../redux/actions/getAllGamesActions";
 
-
-
 const Create = () => {
-
   const dispatch = useDispatch();
-  
+
   const [create, setCreate] = React.useState({
     name: "",
     imagen: "",
@@ -24,7 +21,7 @@ const Create = () => {
     rating: "",
     genres: "",
   });
-  
+
   const [errors, setErrors] = React.useState({
     name: "Must be between 5 and 30 characters long.",
     imagen: "Please, enter an image for your game.",
@@ -35,7 +32,6 @@ const Create = () => {
     genres: "Please, select one genre at least.",
   });
   const genres = useSelector((state) => state.genres);
-  
 
   useEffect(() => {
     dispatch(getGenres());
@@ -46,7 +42,23 @@ const Create = () => {
   let [addPlatforms, setAddPlatforms] = React.useState([]);
 
   function handleSubmit(event) {
+    const form = document.getElementById("form");
+
     event.preventDefault();
+
+    form.reset();
+
+    setAddGenres([]);
+    setAddPlatforms([]);
+    setErrors({
+      name: "Must be between 5 and 30 characters long.",
+      imagen: "Please, enter an image for your game.",
+      description: "Must be between 10 and 200 characters long.",
+      platforms: "Please, select one platform at least.",
+      released: "When was your game released?",
+      rating: "Please select a rating for your game.",
+      genres: "Please, select one genre at least.",
+    });
     const newGame = {
       name: create.name,
       imagen: create.imagen,
@@ -57,7 +69,6 @@ const Create = () => {
       genres: addGenres,
     };
     dispatch(postGame(newGame));
-    disabler(getAllGames())
   }
 
   function disabler() {
@@ -76,37 +87,51 @@ const Create = () => {
   const [aux, setAux] = React.useState(false);
 
   //PARA SACAR EL ULTIMO GENERO AGREGADO
-  function eraseLastGenre() {
+  function eraseLastGenre(genre) {
     if (addGenres.length === 1) {
       setErrors({
         ...errors,
         genres: "Please, select one genre at least.",
       });
     }
-    addGenres.pop();
+    addGenres = addGenres.filter((gen) => gen !== genre);
+    setAddGenres([...addGenres]);
     aux ? setAux(false) : setAux(true);
   }
-function eraseLastPlatform(){
-  if(addPlatforms.length===1){
+  function eraseAllGenres(){
+    setAddGenres([])
     setErrors({
       ...errors,
-      platforms:"Please, select one platform at least."
-    })
+      genres: "Please, select one genre at least.",
+    });
   }
-  addPlatforms.pop();
-  aux ? setAux(false) : setAux(true);
-}
+  function eraseLastPlatform(plats) {
+    if (addPlatforms.length === 1) {
+      setErrors({
+        ...errors,
+        platforms: "Please, select one platform at least.",
+      });
+    }
+    addPlatforms = addPlatforms.filter((plat) => plat !== plats);
+    setAddPlatforms([...addPlatforms]);
+    aux ? setAux(false) : setAux(true);
+  }
+  function eraseAllPlats(){
+    setAddPlatforms([])
+    setErrors({
+      ...errors,
+      platforms: "Please, select one platform at least.",
+    });
+  }
   function handleChange(event) {
-    
     if (event.target.name === "genres") {
       if (!addGenres.includes(event.target.value)) {
         setAddGenres([...addGenres, event.target.value]);
       }
-    
     }
-    if(event.target.name==="platforms"){
-      if(!addPlatforms.includes(event.target.value)){
-        setAddPlatforms([...addPlatforms,event.target.value])
+    if (event.target.name === "platforms") {
+      if (!addPlatforms.includes(event.target.value)) {
+        setAddPlatforms([...addPlatforms, event.target.value]);
       }
     }
 
@@ -115,7 +140,7 @@ function eraseLastPlatform(){
       { ...create, [event.target.name]: event.target.value },
       event.target.name
     );
-    
+
     aux ? setAux(false) : setAux(true);
   }
 
@@ -141,12 +166,12 @@ function eraseLastPlatform(){
       else setErrors({ ...errors, description: "" });
     }
     if (name === "platforms") {
-      if (state.platforms==="") setErrors({
+      if (state.platforms === "")
+        setErrors({
           ...errors,
           platforms: "Please, select one platform at least.",
         });
       else setErrors({ ...errors, platforms: "" });
-       
     }
     if (name === "imagen") {
       if (state.imagen !== "") setErrors({ ...errors, imagen: "" });
@@ -178,27 +203,12 @@ function eraseLastPlatform(){
       }
     }
   }
-  
-//!ACA HAGO EL GETITEM Y USO LAS PLATAFORMAS
-let allPlatforms;
-if(localStorage.length){
-  allPlatforms = localStorage.getItem("plats").split(",")
-}
 
-const genresOk = addGenres.map((gen, index) => {
-  if (index === addGenres.length - 1) {
-    return (gen = `${gen}.`);
-  } else {
-    return (gen = `${gen}/`);
+  //!ACA HAGO EL GETITEM Y USO LAS PLATAFORMAS
+  let allPlatforms;
+  if (localStorage.length) {
+    allPlatforms = localStorage.getItem("plats").split(",");
   }
-});
-const platformsOk = addPlatforms.map((plat,index)=>{
-  if (index === addPlatforms.length - 1) {
-    return (plat = `${plat}.`);
-  } else {
-    return (plat = `${plat}/`);
-  }
-})
 
   return (
     <div>
@@ -206,7 +216,7 @@ const platformsOk = addPlatforms.map((plat,index)=>{
         <h2>¡Let's create a game!</h2>
       </div>
       <div className={style.createFormContainer}>
-        <form onSubmit={handleSubmit} action="">
+        <form onSubmit={handleSubmit} id="form" action="">
           <div className={style.allContainer}>
             <div className={style.nameAndImageContainer}>
               <label className={style.createFormLabels}>Name:</label>
@@ -233,7 +243,7 @@ const platformsOk = addPlatforms.map((plat,index)=>{
               <div className={style.textAreaContainer}>
                 <label className={style.createFormLabels}>Description:</label>
                 <textarea
-                  rows="4"
+                  rows="5"
                   cols="40"
                   placeholder="Describe your game"
                   name="description"
@@ -247,23 +257,42 @@ const platformsOk = addPlatforms.map((plat,index)=>{
           </div>
           <br />
           <label className={style.createFormLabels}>Platforms:</label>
-          <select multiple onChange={handleChange} name="platforms" id="">
-            {allPlatforms?.map((plat)=>{
-              return(
-                <option value={plat}>{plat}</option>
-              )
+          <select onChange={handleChange} name="platforms" id="platforms">
+            {allPlatforms?.map((plat) => {
+              return <option value={plat}>{plat}</option>;
             })}
           </select>
-          <label className={style.formErrorLabel}>{errors.platforms}</label>
-       <div className={style.platfsbutcontainer}>
-       <div className={style.genreAndButContainer}>
-            <p className={style.genresRender}>{platformsOk}</p>
-           
-          </div>
-          <button className={style.xGenreButton}for="platforms" onClick={eraseLastPlatform} type="button">
-              X
-            </button>
-       </div>
+          {addPlatforms.length ? (
+              <div className={style.platfsbutcontainer}>
+                <div className={style.genreAndButContainer}>
+                  {addPlatforms?.map((plat) => {
+                    return (
+                      <div className={style.genRenders}>
+                      <p className={style.genresRender} value={plat}>
+                        {plat}
+                      </p>
+                      <button
+                        className={style.genreXButton}
+                        type="button"
+                        onClick={() => eraseLastPlatform(plat)}
+                      >
+                        x
+                      </button>
+                    </div>
+                    )
+                  })}
+                </div>
+                <button
+                  className={style.xGenreButton}
+                  for="platforms"
+                  type="button"
+                  onClick={eraseAllPlats}
+                >
+                  X
+                </button>
+              </div>
+            ) : null}
+              <label className={style.formErrorLabel}>{errors.platforms}</label>
           <label className={style.createFormLabels}>Released:</label>
           <input
             className={style.releasedCalendar}
@@ -335,28 +364,48 @@ const platformsOk = addPlatforms.map((plat,index)=>{
             </div>
             <label className={style.formErrorLabel}>{errors.rating}</label>
           </div>
-
           <label className={style.createFormLabels}>Genres:</label>
-          <select className={style.formSelect}name="genres" id="genres" multiple onChange={handleChange}>
+          <select
+            className={style.formSelect}
+            name="genres"
+            id="genres"
+             onChange={handleChange}
+          >
             {genres.map((genre) => {
               return <option value={genre.name}>{genre.name}</option>;
             })}
           </select>
-          <div className={style.platfsbutcontainer}>
-       <div className={style.genreAndButContainer}>
-            <p className={style.genresRender}>{genresOk}</p>
-           
-          </div>
-          <button className={style.xGenreButton}for="genres" onClick={eraseLastGenre} type="button">
-              X
-            </button>
-       </div>
+          {addGenres.length ? (
+            <div className={style.platfsbutcontainer}>
+              <div className={style.genreAndButContainer}>
+                {addGenres?.map((gen) => {
+                  return (
+                    <div className={style.genRenders}>
+                      <p className={style.genresRender} value={gen}>
+                        {gen}
+                      </p>
+                      <button
+                        className={style.genreXButton}
+                        type="button"
+                        onClick={() => eraseLastGenre(gen)}
+                      >
+                        x
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <button 
+              onClick={eraseAllGenres}
+              className={style.xGenreButton} for="genres" type="button">
+                X
+              </button>
+            </div>
+          ) : null}
           <label className={style.formErrorLabel}>{errors.genres}</label>
-
           <input
             disabled={disabler()}
             className={style.submitFormButton}
-
             type="submit"
             value={"Create game!"}
           />

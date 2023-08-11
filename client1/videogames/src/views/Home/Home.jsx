@@ -17,13 +17,13 @@ function Home() {
 
   const filteredByName = useSelector((state) => state.filteredByName);
   const currentPage = useSelector((state) => state.currentPage);
-const charged = useSelector((state)=>state.charged)
-  React.useEffect(() => {
+const created = useSelector((state)=>state.created)
 
+  React.useEffect(() => {
       dispatch(getAllGames());
 
     return () => {};
-  }, []);
+  }, [allGames.length]);
 
   const paginate = (event) => {
     dispatch(nextOrPrev(event.target.name));

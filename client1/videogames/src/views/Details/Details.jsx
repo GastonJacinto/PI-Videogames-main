@@ -6,12 +6,11 @@ import { getGameDetail } from "../../redux/actions/getGameDetailActions";
 import { cleanDetail } from "../../redux/actions/cleanDetailStateActions";
 import { useParams } from "react-router-dom";
 import style from "./Details.module.css";
-import { Link,  } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { deleteGame } from "../../redux/actions/deleteGameActions";
 
 const Details = () => {
   const dispatch = useDispatch();
-
   const id = useParams();
   const gameDetail = useSelector((state) => state.gameDetail);
 
@@ -23,6 +22,7 @@ const Details = () => {
       dispatch(cleanDetail());
     };
   }, []);
+  
   let genres = [];
 
   if (gameDetail.onDB) {
@@ -30,7 +30,7 @@ const Details = () => {
       if (index === gameDetail.genres.length - 1) {
         return (gen = `${gen.name}.`);
       } else {
-        return (gen = `${gen.name}/`);
+        return (gen = `${gen.name},`);
       }
     });
   } else {
@@ -38,22 +38,29 @@ const Details = () => {
       if (index === gameDetail.genres.length - 1) {
         return (gen = `${gen}.`);
       } else {
-        return (gen = `${gen}/`);
+        return (gen = `${gen},`);
       }
     });
   }
-let hola;
+
   const platforms = gameDetail.platforms?.map((plat, index) => {
     if (index === gameDetail.platforms.length - 1) {
       return (plat = `${plat}.`);
     } else {
-      return (plat = `${plat}/`);
+      return (plat = `${plat},`);
     }
   });
 
-  function deleteDBGame(){
-dispatch(deleteGame(gameDetail.id))
-// redirect("/home");
+  function deleteDBGame() {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this game?"
+    );
+    if (confirm) {
+      window.alert("Your game was succesfully deleted.");
+      dispatch(deleteGame(gameDetail.id))
+    } else window.alert("Action cancelled.");
+
+    // redirect("/home");
   }
   return (
     <div>
@@ -70,17 +77,24 @@ dispatch(deleteGame(gameDetail.id))
               src={gameDetail.imagen}
               alt={gameDetail.name}
             />
-            
           </div>
           <div className={style.infoContainer}>
-            <h2 className={style.detailName}>{gameDetail.id}: {gameDetail.name}</h2>
+            <h2 className={style.detailName}>
+              {gameDetail.id}: {gameDetail.name}
+            </h2>
             <p className={style.detailsP}>{description}</p>
             <p className={style.detailsP}>Platforms: {platforms}</p>
             <p className={style.detailsP}>Genres: {genres}</p>
             <p className={style.detailsP}>Released: {gameDetail.released}</p>
             <p className={style.detailsP}>Rating: {gameDetail.rating}</p>
             <div className={style.deleteContainer}>
-           {gameDetail.onDB? <Link to="/home"><button onClick={deleteDBGame} className={style.deleteButton}>🗑</button></Link>:null}
+              {gameDetail.onDB ? (
+                <Link to="/home">
+                  <button onClick={deleteDBGame} className={style.deleteButton}>
+                    🗑
+                  </button>
+                </Link>
+              ) : null}
             </div>
           </div>
         </div>
