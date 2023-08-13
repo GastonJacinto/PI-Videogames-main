@@ -1,10 +1,16 @@
+.paginateContainer{
+  display: flex;
+  justify-content: center;
+}
 .paginateButtons {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   text-align: center;
+  align-content: center;
   margin: 0.5rem;
   height: 1.5rem;
+  width: 30%;
 }
 .pagButts {
   color: rgb(255, 255, 255);

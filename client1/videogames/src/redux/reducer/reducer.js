@@ -163,10 +163,13 @@ function rootReducer(state = initialState, action) {
         filteredGames: genreFilter,
         currentPage: 1,
       };
+      
     case FILTERED_BY_PLATFORMS:
+      
       let platformFilter = [...state.backUp].filter((game) =>
         game.platforms.includes(action.payload)
       );
+
       return {
         ...state,
         allGames: [...platformFilter].splice(0, cardPerPage),

@@ -10,7 +10,8 @@ const Paginate = () => {
     dispatch(nextOrPrev(event.target.name));
   };
   return (
-    <div className={style.paginateButtons}>
+   <div className={style.paginateContainer}>
+     <div className={style.paginateButtons}>
     <button className={style.pagButts} name="prev" onClick={paginate}>
       Previous
     </button>
@@ -21,6 +22,7 @@ const Paginate = () => {
       Next
     </button>
   </div>
+   </div>
   )
 }
 

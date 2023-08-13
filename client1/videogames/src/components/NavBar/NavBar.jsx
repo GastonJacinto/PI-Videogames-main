@@ -64,7 +64,7 @@ let allPlatforms;
       <div className={style.imgNavBarContainer}>
         <Link to={"/"}>
           <img
-            src="https://i.gifer.com/2Mw7.gif"
+            src="https://media.giphy.com/media/FtTfX6RsPPExhjuymq/giphy.gif"
             alt="logo"
           />
         </Link>
@@ -79,8 +79,8 @@ let allPlatforms;
           <Link to={"/home"}>
             <img
               className={style.homeButton}
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-QP1xq1JHkdt7hAbWhcYh0rY3g7SMlvUPiA&usqp=CAU"
-              alt=""
+              src="https://iili.io/HDlPXuS.png"
+              alt="home"
             />
           </Link>
         </div>
@@ -112,7 +112,7 @@ let allPlatforms;
           name="source"
         >
           <option selected>FILTER BY SOURCE</option>
-          <option value="db">Database</option>
+          <option value="db">DATABASE</option>
           <option value="api">API</option>
         </select>
         <select
