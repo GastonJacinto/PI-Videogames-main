@@ -34,7 +34,7 @@ async function getVideogamesController() {
         return (name = platf.platform.name);
       });
 
-   plats.push(insertPlatforms)
+      plats.push(insertPlatforms)
 
       const insertGenres = game.genres.map((gen) => {
         return {name:gen.name}
@@ -63,7 +63,6 @@ plats.forEach((p)=>{
  allPlatforms = [...platforms]
 
   const allGames = dbGames.concat(games);
-  console.log(allGames.length)
   return allGames;
 }
 

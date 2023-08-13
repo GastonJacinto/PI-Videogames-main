@@ -10,45 +10,30 @@ import NavBar from "../../components/NavBar/NavBar";
 import { getPlatforms } from "../../redux/actions/getPlatformsActions";
 import { useParams } from "react-router-dom";
 import { cleanFiltered } from "../../redux/actions/cleanFilteredActions";
+import { getGenres } from "../../redux/actions/getGenresActions";
+import Paginate from "../../components/Paginate/Paginate";
 
 function Home() {
   const dispatch = useDispatch();
   const allGames = useSelector((state) => state.allGames);
-
-  const filteredByName = useSelector((state) => state.filteredByName);
-  const currentPage = useSelector((state) => state.currentPage);
-const created = useSelector((state)=>state.created)
-
+ const genres = useSelector((state) => state.genres);
+  
   React.useEffect(() => {
+    if (!allGames.length) {
       dispatch(getAllGames());
-
+    }
+    if (!genres.length) {
+      dispatch(getGenres());
+    }
     return () => {};
-  }, [allGames.length]);
+  }, []);
 
-  const paginate = (event) => {
-    dispatch(nextOrPrev(event.target.name));
-  };
-
-  return (
+ return (
     <div>
-      <div className={style.paginateButtons}>
-        <button className={style.pagButts} name="prev" onClick={paginate}>
-          Previous
-        </button>
-        <div className={style.currentPageContainer}>
-          <p className={style.currentPageP}>{currentPage + 1}</p>
-        </div>
-        <button className={style.pagButts} name="next" onClick={paginate}>
-          Next
-        </button>
-      </div>
+      <Paginate/>
       <div className={style.homeContainer}>
         <div className={style.cardsHomeContainer}>
-          {filteredByName.length ? (
-            <Cards props={filteredByName} />
-          ) : (
-            <Cards props={allGames} />
-          )}
+        <Cards props={allGames} />
         </div>
       </div>
     </div>

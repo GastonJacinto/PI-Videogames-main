@@ -11,11 +11,6 @@ async function postVideogameController(
   released
 ) {
 
-  if (!name || !description || !platforms || !imagen || !rating || !genres || !released
-    ) {
-    throw new Error("Missing data.");
-  }
-
   const findingGame = await Videogame.findOne({ where: { name: name } });
 
   if (findingGame) {
@@ -28,10 +23,6 @@ async function postVideogameController(
         name: genres[i],
       },
     });
-
-    if (!genre) {
-      throw new Error("You have entered a genre that does not exists.");
-    }
   }
   const newGame = await Videogame.create({
     name,

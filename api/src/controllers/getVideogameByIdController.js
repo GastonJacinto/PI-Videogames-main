@@ -22,7 +22,7 @@ if(id.includes("-")){
   }
 }
 
-try {
+
   const { data } = await axios(
     `https://api.rawg.io/api/games/${id}?key=${API_KEY}`
   );
@@ -53,16 +53,7 @@ try {
 
   return idGame;
   } 
-} catch (error) {
-  throw new Error("The id you've entered doesn't exists.")
-}
-    
-    
  
-  
-  
-
-  
 }
 
 module.exports = getVideogameByIdController;

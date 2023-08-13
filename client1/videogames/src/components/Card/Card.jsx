@@ -1,7 +1,6 @@
 import React from "react";
 import style from "./Card.module.css";
 import { Link } from "react-router-dom";
-import Notfound from "../Notfound.jsx/Notfound";
 
 const Card = (props) => {
   // const plats = props.platforms.map((plat, index) => {
@@ -11,6 +10,7 @@ const Card = (props) => {
   //     return (plat = `${plat}, `);
   //   }
   // });
+  
   let genres = props.genres?.map((gen, index) => {
     if (index === props.genres?.length - 1) {
       return (gen = `${gen.name}.`);
@@ -25,8 +25,8 @@ const Card = (props) => {
         <Link to={`/details/${props.id}`}>
           {" "}
           <h2 className={style.cardName}title={props.name}>
-            {props.name.length > 15
-              ? `${props.name?.slice(0, 12)}...`
+            {props.name.length > 20
+              ? `${props.name?.slice(0, 18)}...`
               : `${props.name}`}
           </h2>
         </Link>

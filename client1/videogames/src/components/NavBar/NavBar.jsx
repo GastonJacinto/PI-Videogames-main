@@ -4,10 +4,14 @@ import { Link } from "react-router-dom";
 import style from "./NavBar.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getByName } from "../../redux/actions/getByNameActions";
-import { orderByName } from "../../redux/actions/orderByNameActions";
+import {
+  orderByName,
+  orderByNameOrRat,
+} from "../../redux/actions/orderByNameActions";
 import { cleanFiltered } from "../../redux/actions/cleanFilteredActions";
 import { filteredBySource } from "../../redux/actions/filteredBySourceActions";
-import { orderByRating } from "../../redux/actions/orderByRatingActions";
+import { filteredByGenre } from "../../redux/actions/filteredByGenresActions";
+import { filteredByPlatform } from "../../redux/actions/filteredByPlatformsActions";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -23,33 +27,46 @@ const NavBar = () => {
   }
 
   function searchByName(name) {
-    const search = document.getElementById("search")
-search.innerHTML = ""
     dispatch(getByName(name));
   }
 
   function filtering(event) {
-    if (event.target.value !== "SOURCE...") {
+    event.preventDefault();
+    if (event.target.value !== "FILTER BY SOURCE") {
       dispatch(filteredBySource(event.target.value));
     }
   }
-
-  function orderName(event) {
-    if (event.target.value !== "ORDER BY NAME...") {
-      dispatch(orderByName(event.target.value));
+function filterGenre(event){
+  event.preventDefault();
+  if (event.target.value !== "FILTER BY GENRES") {
+    dispatch(filteredByGenre(event.target.value));
+  }
+}
+let allPlatforms;
+  if (localStorage.length) {
+    allPlatforms = localStorage.getItem("plats").split(",");
+  }
+  function filterPlatform (event){
+    event.preventDefault();
+    if (event.target.value !== "FILTER BY PLATFORMS") {
+      dispatch(filteredByPlatform(event.target.value));
     }
   }
-
-  function orderRating(event) {
-    if (event.target.value !== "ORDER BY RATING...") {
-      dispatch(orderByRating(event.target.value));
+  function orderBy(event) {
+    event.preventDefault();
+    if (event.target.value !== "ORDER BY...") {
+      dispatch(orderByNameOrRat(event.target.value));
     }
   }
+  const genres = useSelector((state) => state.genres);
   return (
     <div className={style.navBarContainer}>
       <div className={style.imgNavBarContainer}>
         <Link to={"/"}>
-          <img src="https://i.gifer.com/Paz.gif" alt="logo" />
+          <img
+            src="https://i.gifer.com/2Mw7.gif"
+            alt="logo"
+          />
         </Link>
       </div>
       <div className={style.linkNavBarContainer}>
@@ -62,7 +79,7 @@ search.innerHTML = ""
           <Link to={"/home"}>
             <img
               className={style.homeButton}
-              src="https://iili.io/HtypNDv.png"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-QP1xq1JHkdt7hAbWhcYh0rY3g7SMlvUPiA&usqp=CAU"
               alt=""
             />
           </Link>
@@ -70,41 +87,78 @@ search.innerHTML = ""
       </div>
       <div className={style.filtersContainer}>
         <button
-        className={style.navSelects}
+          className={style.cleanFilters}
           onClick={() => {
             clean();
           }}
         >
           CLEAR FILTERS
         </button>
-        <select className={style.navSelects}onChange={orderName} name="filters" id="">
-          <option selected>ORDER BY NAME...</option>
+        <select
+          className={style.navSelects}
+          onChange={orderBy}
+          name="filters"
+          id=""
+        >
+          <option selected>ORDER BY...</option>
           <option value="asc">A-Z</option>
           <option value="desc">Z-A</option>
+          <option value="+">RATING ⬆</option>
+          <option value="-">RATING ⬇</option>
         </select>
-      
-        <select className={style.navSelects}onChange={orderRating} name="rating" id="">
-          <option selected>ORDER BY RATING...</option>
-          <option value="+">Rating +</option>
-          <option value="-">Rating -</option>
-        </select>
-        <select className={style.navSelects}onChange={filtering} name="source" id="">
-          <option selected>SOURCE...</option>
+        <select
+          className={style.navSelects}
+          onChange={filtering}
+          name="source"
+        >
+          <option selected>FILTER BY SOURCE</option>
           <option value="db">Database</option>
           <option value="api">API</option>
         </select>
+        <select
+          className={style.navSelects}
+          onChange={filterGenre}
+          name="genres"
+          id=""
+        >
+          <option selected>FILTER BY GENRES</option>
+          {genres?.map((gen,index
+          ) => {
+            return <option key={index} value={gen.name}>{gen.name}</option>;
+          })}
+        </select>
+        <select
+          className={style.navSelects}
+          onChange={filterPlatform}
+          name="platforms"
+          id=""
+        >
+          <option selected>FILTER BY PLATFORMS</option>
+          {allPlatforms?.map((gen,index
+          ) => {
+            return <option key={index} value={gen}>{gen}</option>;
+          })}
+        </select>
       </div>
-      <div>
-      <button
+      <div className={style.searcbhBarContainer}>
+       
+        <input
+          className={style.navSelects}
+          onChange={handleChange}
+          placeholder="Search by name"
+          id="search"
+          value={name}
+          type="search"
+        />
+         <button
+        className={style.searchButton}
           onClick={() => {
             searchByName(name);
           }}
           type="submit"
         >
-          SEARCH
+          🔎
         </button>
-        <input className={style.navSelects}onChange={handleChange} id="search"value={name} type="search" />
-      
       </div>
     </div>
   );

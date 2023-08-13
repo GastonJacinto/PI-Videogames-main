@@ -1,6 +1,6 @@
 import { ORDER } from "./actionTypes";
 
-export function orderByName(orden) {
+export function orderByNameOrRat(orden) {
   return async function (dispatch) {
     try {
       dispatch({

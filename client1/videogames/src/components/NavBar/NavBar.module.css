@@ -42,38 +42,81 @@
 }
 .homeButtonContainer {
   display: flex;
+
   justify-content: center;
   align-items: center;
-  width: 3rem;
+
 }
 .homeButton {
-  width: 5rem;
+  width: 3rem;
 }
 .homeButton:hover {
   transition: 0.7s;
   transform: rotate(360deg);
 }
 .filtersContainer {
-  width: 40%;
-
+  width: 50%;
   display: flex;
   height: 2rem;
   justify-content: space-evenly;
 
 }
-
-.navSelects{
-  transition: .3s ease all;
+.cleanFilters{
+  color: grey;
+  font-size: .8rem;
   text-align: center;
   width: 10rem;
   font-weight: bold;
+  border: solid black .2rem;
   appearance: none;
   border-radius: 1rem;
-  background-color: grey;
+  background-color: rgba(62, 62, 62, 0.568);
 }
+.cleanFilters:hover{
+  transition: .4s;
+  background-color: rgba(255, 0, 0, 0.224);
+}
+.cleanFilters:active{
+  background-color: rgba(255, 0, 0, 0.481);
+  transform: scale(0.8);
+  transition: .4s;
+  cursor: grab;
+}
+.navSelects{
+  color: grey;
+  font-size: .8rem;
+  text-align: center;
+  width: 10rem;
+  font-weight: bold;
+  border: solid black .2rem;
+  appearance: none;
+  border-radius: 1rem;
+  background-color: rgba(2, 2, 2, 0.568);
+}
+.navSelects:hover{
+  font-size: .8rem;
+  color: white;
+  transition: .4s;
+  transform: scale(1.1);
+ 
+}
+
 .navSelects:-ms-expand {
   display: none;
 }
+.navSelects option{
+  color: rgb(0, 0, 0);
+}
+.searchButton{
+  border-radius: 1rem;
+  background-color: rgb(7, 6, 6);
+  border: solid black .2rem;
+}
 
+.searchButton:hover{
+  transition: .2;
+  transform: scale(1.1);
+  cursor:alias
+}
 
 

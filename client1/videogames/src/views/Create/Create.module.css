@@ -4,7 +4,7 @@
 }
 
 .letsCreateContainer {
-  color: grey;
+  color: rgb(0, 0, 0);
   font-size: 2rem;
   font-family: "ValorantFont";
   display: flex;
@@ -159,15 +159,12 @@ p {
   flex-direction: row-reverse;
 }
 .genRenders{
-
   display: flex;
   height: 1.5rem;
   text-align: center;
   justify-content: center;
   align-items: center;
   align-content: center;
-
-
 }
 .genreXButton{
   margin: .3rem;

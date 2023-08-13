@@ -12,8 +12,10 @@ export function getByName(name) {
     } catch (error) {
       dispatch({
         type: NOT_FOUND,
-        payload: false
+        payload: true
       })
+      window.alert(error.response.data.error)
+
     }
   };
 }

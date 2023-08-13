@@ -9,10 +9,6 @@ export function postGame(create) {
         "http://localhost:3001/videogames/",
         create
       );
-      dispatch({
-        type:POST_GAME,
-        payload:create
-      })
       return alert(`Your game "${create.name}" has been succesfully created. `);
     } catch (error) {
       return alert(error.response.data.error);

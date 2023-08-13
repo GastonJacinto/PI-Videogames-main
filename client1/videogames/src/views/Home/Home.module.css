@@ -38,7 +38,7 @@
   background-color: rgba(81, 6, 108, 0.998);
   transition: 0.1s;
 }
-.currentPageContainer {
+/* .currentPageContainer {
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -50,4 +50,4 @@
 }
 .currentPageP {
   font-family: "ValorantFont";
-}
+} */

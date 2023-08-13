@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import style from "./Details.module.css";
 import { Link } from "react-router-dom";
 import { deleteGame } from "../../redux/actions/deleteGameActions";
+import { getAllGames } from "../../redux/actions/getAllGamesActions";
 
 const Details = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,7 @@ const Details = () => {
     if (confirm) {
       window.alert("Your game was succesfully deleted.");
       dispatch(deleteGame(gameDetail.id))
+      dispatch(getAllGames())
     } else window.alert("Action cancelled.");
 
     // redirect("/home");

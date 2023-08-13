@@ -1,8 +1,5 @@
 /* eslint-disable no-unused-vars */
-import {ORDER_RATING,
-
-  charged,
-  FILTERED_BY_RATING,
+import {
   GET_ALL_GAMES,
   ORDER,
   GET_BY_NAME,
@@ -15,22 +12,22 @@ import {ORDER_RATING,
   CLEAN_FILTERED,
   FILTERED_BY_SOURCE,
   DELETE_DBGAME,
-  CHARGE_HOME,
-  NOT_FOUND
+  NOT_FOUND,
+  FILTERED_BY_GENRES,
+  FILTERED_BY_PLATFORMS,
 } from "../actions/actionTypes";
 
 let initialState = {
   allGames: [],
-  allGamesBackUp: [],
-  currentPage: 0,
+  filteredGames: [],
+  currentPage: 1,
   gameDetail: {},
-  genres: [],
-  platforms: [],
   filteredByName: [],
   backUp: [],
-  found:true,
-  created:false,
+  gameFound: "",
   // isLoading: true,  LOADING
+  platforms: [],
+  genres: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -40,10 +37,9 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         backUp: action.payload,
-        allGamesBackUp: action.payload,
+        filteredGames: action.payload,
         allGames: [...action.payload].splice(0, cardPerPage),
-      created:false,
-        found:true,
+        currentPage: 1,
       };
     case GET_GENRES:
       return {
@@ -54,112 +50,129 @@ function rootReducer(state = initialState, action) {
       localStorage.setItem("plats", action.payload);
       return { ...state };
     case GET_BY_NAME:
-      return { ...state, filteredByName: action.payload,
-      found:true };
-    case CLEAN_FILTERED:
       return {
         ...state,
-        filteredByName: action.payload,
-        allGamesBackUp: [...state.backUp],
-        allGames: [...state.backUp].splice(0, cardPerPage),
-        currentPage:0,
-        found:true,
+        allGames: [...action.payload].splice(0, cardPerPage),
+        filteredGames: action.payload,
+        currentPage: 1,
       };
-      case NOT_FOUND:
-        return{
-...state,
-found:action.payload
-        };
-        case POST_GAME:
-          return {
-            ...state,
-            allGamesBackUp: [...state.allGamesBackUp,action.payload],
-            allGames: [...state.allGamesBackUp, action.payload].splice(0, cardPerPage),
-          created:false,
-            found:true,
-          };
+    case CLEAN_FILTERED:
+      const search = document.getElementById("search");
+      search.value = "";
+
+      const selects = document.getElementsByTagName("select");
+      for (let i = 0; i < selects.length; i++) {
+        selects[i].selectedIndex = 0;
+      }
+      return {
+        ...state,
+        filteredGames: [...state.backUp],
+        allGames: [...state.backUp].splice(0, cardPerPage),
+        currentPage: 1,
+      };
+    case NOT_FOUND:
+      return {
+        ...state,
+
+        gameFound: action.payload,
+      };
     case ORDER:
-      let orderBy = [];
       if (action.payload === "asc") {
-        state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
+        const ascOrder = [...state.filteredGames].sort((a, b) => {
           if (a.name > b.name) return 1;
           if (a.name < b.name) return -1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
-          allGamesBackUp:  state.allGamesBackUp,
-          currentPage: 0,
+          allGames: [...ascOrder].splice(0, cardPerPage),
+          filteredGames: ascOrder,
+          currentPage: 1,
         };
       } else if (action.payload === "desc") {
-         state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
+        const descOrder = [...state.filteredGames].sort((a, b) => {
           if (a.name > b.name) return -1;
           if (a.name < b.name) return 1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
-          allGamesBackUp: state.allGamesBackUp,
-          currentPage: 0,
+          allGames: [...descOrder].splice(0, cardPerPage),
+          filteredGames: descOrder,
+          currentPage: 1,
         };
-      } 
-
-      break;
-    case ORDER_RATING:
-      let orderByRating = [];
-      if (action.payload === "-") {
-        state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
+      } else if (action.payload === "-") {
+        const lowRating = [...state.filteredGames].sort((a, b) => {
           if (a.rating > b.rating) return 1;
           if (a.rating < b.rating) return -1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
-          allGamesBackUp:    state.allGamesBackUp,
-          currentPage: 0,
+          allGames: [...lowRating].splice(0, cardPerPage),
+          filteredGames: lowRating,
+          currentPage: 1,
         };
       } else if (action.payload === "+") {
-        state.allGamesBackUp = [...state.allGamesBackUp].sort((a, b) => {
+        const highRating = [...state.filteredGames].sort((a, b) => {
           if (a.rating > b.rating) return -1;
           if (a.rating < b.rating) return 1;
           return 0;
         });
         return {
           ...state,
-          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
-          allGamesBackUp:    state.allGamesBackUp,
-          currentPage: 0,
+          allGames: [...highRating].splice(0, cardPerPage),
+          filteredGames: highRating,
+          currentPage: 1,
         };
       }
+
       break;
-      case FILTERED_BY_SOURCE:
-        console.log("entro filtered source")
-      let bySource = [];
+    case FILTERED_BY_SOURCE:
       if (action.payload === "db") {
-        state.allGamesBackUp = [...state.allGamesBackUp].filter(
-          (game) => game.onDB === true
-        );
+        const dbGames = [...state.backUp].filter((game) => game.onDB === true);
         return {
           ...state,
-          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
-          allGamesBackUp: state.allGamesBackUp,
-          currentPage: 0,
+          allGames: [...dbGames].splice(0, cardPerPage),
+          filteredGames: dbGames,
+          currentPage: 1,
         };
       } else if (action.payload === "api") {
-        state.allGamesBackUp = [...state.allGamesBackUp].filter(
-          (game) => game.onDB!==true
-        );
+        const apiGames = [...state.backUp].filter((game) => game.onDB !== true);
         return {
           ...state,
-          allGames: [...state.allGamesBackUp].splice(0, cardPerPage),
-          allGamesBackUp: state.allGamesBackUp,
-          currentPage: 0,
+          allGames: [...apiGames].splice(0, cardPerPage),
+          filteredGames: apiGames,
+          currentPage: 1,
         };
       }
       break;
+    case FILTERED_BY_GENRES:
+      let genreFilter = [];
+
+      [...state.backUp].forEach((game) => {
+        game.genres.forEach((gen) => {
+          if (gen.name === action.payload) {
+            genreFilter.push(game);
+          }
+        });
+      });
+      return {
+        ...state,
+        allGames: [...genreFilter].splice(0, cardPerPage),
+        filteredGames: genreFilter,
+        currentPage: 1,
+      };
+    case FILTERED_BY_PLATFORMS:
+      let platformFilter = [...state.backUp].filter((game) =>
+        game.platforms.includes(action.payload)
+      );
+      return {
+        ...state,
+        allGames: [...platformFilter].splice(0, cardPerPage),
+        filteredGames: platformFilter,
+        currentPage: 1,
+      };
     case PAGINATE:
       const nextPage = state.currentPage + 1;
 
@@ -170,14 +183,14 @@ found:action.payload
           ? nextPage * cardPerPage
           : prevPage * cardPerPage;
 
-      if (action.payload === "next" && index >= state.allGamesBackUp.length) {
+      if (action.payload === "next" && index >= state.filteredGames.length) {
         return { ...state };
       } else if (action.payload === "prev" && prevPage < 0) {
         return { ...state };
       }
       return {
         ...state,
-        allGames: [...state.allGamesBackUp].splice(index, cardPerPage),
+        allGames: [...state.filteredGames].splice(index, cardPerPage),
         currentPage: action.payload === "next" ? nextPage : prevPage,
       };
     case GET_DETAIL:
@@ -186,22 +199,23 @@ found:action.payload
         gameDetail: action.payload,
       };
     case CLEAN_DETAIL:
-
       return {
         ...state,
         gameDetail: action.payload,
       };
     case DELETE_DBGAME:
-      let filterDelete = state.allGamesBackUp.filter((games)=>games.id !== action.payload)
+      let filterDelete = state.filteredGames.filter(
+        (games) => games.id !== action.payload
+      );
       return {
         ...state,
-        allGamesBackUp: filterDelete,
+        backUp: filterDelete,
+        filteredGames: filterDelete,
         allGames: [...filterDelete].splice(0, cardPerPage),
       };
-      default:
+    default:
       return {
         ...state,
-   
       };
   }
 }

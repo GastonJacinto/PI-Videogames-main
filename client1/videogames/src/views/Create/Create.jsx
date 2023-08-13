@@ -9,6 +9,8 @@ import { getGenres } from "../../redux/actions/getGenresActions";
 
 import { getAllGames } from "../../redux/actions/getAllGamesActions";
 
+let gameCreated = false;
+
 const Create = () => {
   const dispatch = useDispatch();
 
@@ -31,46 +33,25 @@ const Create = () => {
     rating: "Please select a rating for your game.",
     genres: "Please, select one genre at least.",
   });
+
   const genres = useSelector((state) => state.genres);
 
   useEffect(() => {
-    dispatch(getGenres());
+
+return()=>{
+
+if(gameCreated){
+  dispatch(getAllGames())
+  gameCreated=false;
+}
+}
   }, []);
 
   let [addGenres, setAddGenres] = React.useState([]);
 
   let [addPlatforms, setAddPlatforms] = React.useState([]);
 
-  function handleSubmit(event) {
-    const form = document.getElementById("form");
-
-    event.preventDefault();
-
-    form.reset();
-
-    setAddGenres([]);
-    setAddPlatforms([]);
-    setErrors({
-      name: "Must be between 5 and 30 characters long.",
-      imagen: "Please, enter an image for your game.",
-      description: "Must be between 10 and 200 characters long.",
-      platforms: "Please, select one platform at least.",
-      released: "When was your game released?",
-      rating: "Please select a rating for your game.",
-      genres: "Please, select one genre at least.",
-    });
-    const newGame = {
-      name: create.name,
-      imagen: create.imagen,
-      description: create.description,
-      platforms: addPlatforms,
-      released: create.released,
-      rating: create.rating,
-      genres: addGenres,
-    };
-    dispatch(postGame(newGame));
-  }
-
+ 
   function disabler() {
     let disabled = true;
     for (const err in errors) {
@@ -83,11 +64,9 @@ const Create = () => {
     }
     return disabled;
   }
-  //PARA FORZAR RENDERIZADO
   const [aux, setAux] = React.useState(false);
 
-  //PARA SACAR EL ULTIMO GENERO AGREGADO
-  function eraseLastGenre(genre) {
+  function eraseGenre(genre) {
     if (addGenres.length === 1) {
       setErrors({
         ...errors,
@@ -105,7 +84,7 @@ const Create = () => {
       genres: "Please, select one genre at least.",
     });
   }
-  function eraseLastPlatform(plats) {
+  function erasePlatform(plats) {
     if (addPlatforms.length === 1) {
       setErrors({
         ...errors,
@@ -143,7 +122,36 @@ const Create = () => {
 
     aux ? setAux(false) : setAux(true);
   }
+  function handleSubmit(event) {
+    gameCreated=true;
+    const form = document.getElementById("form");
 
+    event.preventDefault();
+
+    form.reset();
+
+    setAddGenres([]);
+    setAddPlatforms([]);
+    setErrors({
+      name: "Must be between 5 and 30 characters long.",
+      imagen: "Please, enter an image for your game.",
+      description: "Must be between 10 and 200 characters long.",
+      platforms: "Please, select one platform at least.",
+      released: "When was your game released?",
+      rating: "Please select a rating for your game.",
+      genres: "Please, select one genre at least.",
+    });
+    const newGame = {
+      name: create.name,
+      imagen: create.imagen,
+      description: create.description,
+      platforms: addPlatforms,
+      released: create.released,
+      rating: create.rating,
+      genres: addGenres,
+    };
+    dispatch(postGame(newGame));
+  }
   function validation(state, name) {
     if (name === "name") {
       if (state.name === "" || state.name.length < 5 || state.name.length > 30)
@@ -174,13 +182,16 @@ const Create = () => {
       else setErrors({ ...errors, platforms: "" });
     }
     if (name === "imagen") {
-      if (state.imagen !== "") setErrors({ ...errors, imagen: "" });
-      else
-        setErrors({
-          ...errors,
-          imagen: "Please, enter an image for your game.",
-        });
-    }
+      if (state.imagen === "")  setErrors({
+        ...errors,
+        imagen: "Please, enter an image for your game.",
+      });
+      else setErrors({ ...errors, imagen: "" });
+
+      if (state.imagen.length>255 ) setErrors({ ...errors, imagen: "The link must be less than 255 characters." });
+ 
+    } 
+    
     if (name === "released") {
       if (state.released !== "") setErrors({ ...errors, released: "" });
       else setErrors({ ...errors, released: "When was your game released?" });
@@ -189,7 +200,7 @@ const Create = () => {
       if (isNaN(parseInt(state.rating)))
         setErrors({
           ...errors,
-          rating: "Rating must be a number between 0 and 5.",
+          rating: "Rating must be a number between 1 and 5.",
         });
       else setErrors({ ...errors, rating: "" });
     }
@@ -274,7 +285,7 @@ const Create = () => {
                       <button
                         className={style.genreXButton}
                         type="button"
-                        onClick={() => eraseLastPlatform(plat)}
+                        onClick={() => erasePlatform(plat)}
                       >
                         x
                       </button>
@@ -387,7 +398,7 @@ const Create = () => {
                       <button
                         className={style.genreXButton}
                         type="button"
-                        onClick={() => eraseLastGenre(gen)}
+                        onClick={() => eraseGenre(gen)}
                       >
                         x
                       </button>
