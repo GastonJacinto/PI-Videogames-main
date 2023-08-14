@@ -25,6 +25,8 @@ let initialState = {
   filteredByName: [],
   backUp: [],
   isLoading:false,
+  deleted:false,
+  notFound:false,
   platforms: [],
   genres: [],
 };
@@ -40,6 +42,7 @@ function rootReducer(state = initialState, action) {
         filteredGames: action.payload,
         allGames: [...action.payload].splice(0, cardPerPage),
         currentPage: 0,
+        deleted:false,
       };
     case GET_GENRES:
       return {
@@ -76,12 +79,14 @@ function rootReducer(state = initialState, action) {
         allGames: [...state.backUp].splice(0, cardPerPage),
         currentPage: 0,
         findingByName: false,
-        isLoading:false
+        isLoading:false,
+        notFound: false,
       };
     case NOT_FOUND:
       return {
         ...state,
         isLoading:false,
+        notFound:true,
 
       };
     case ORDER:
@@ -226,6 +231,7 @@ function rootReducer(state = initialState, action) {
         backUp:noDeletedGames,
         filteredGames: filterDelete,
         allGames: [...filterDelete].splice(0, cardPerPage),
+        deleted:true
       };
     default:
       return {

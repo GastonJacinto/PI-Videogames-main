@@ -62,10 +62,8 @@ const isLoading = useSelector((state)=>state.isLoading)
     if (confirm) {
       window.alert("Your game was succesfully deleted.");
       dispatch(deleteGame(gameDetail.id))
-      dispatch(getAllGames())
       } else window.alert("Action cancelled.");
 
-    // redirect("/home");
   }
   return (
     <div className={style.detailContainer}>

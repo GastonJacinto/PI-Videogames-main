@@ -28,7 +28,6 @@ const NavBar = () => {
   function searchByName(name) {
     dispatch(setIsLoading())
     dispatch(getByName(name))
- 
   }
 
   function filtering(event) {

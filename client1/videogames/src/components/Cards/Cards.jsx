@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import Card from '../Card/Card'
 import style from "./Cards.module.css"
@@ -7,10 +8,10 @@ import { useSelector } from 'react-redux'
 
 const Cards = ({props}) => {
 
-  const isLoading = useSelector((state)=>state.isLoading)
+
   return (
     <div className={style.cardsContainer}>
-{!isLoading || props.length?props?.map((game)=>{
+{props.length?props?.map((game)=>{
   return (
     <Card 
     id={game.id}
