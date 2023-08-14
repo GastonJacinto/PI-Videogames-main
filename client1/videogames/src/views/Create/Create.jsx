@@ -53,7 +53,6 @@ if(gameCreated){
 
   let [addPlatforms, setAddPlatforms] = React.useState([]);
 
- 
   function disabler() {
     let disabled = true;
     for (const err in errors) {
