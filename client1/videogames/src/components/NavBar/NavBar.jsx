@@ -5,7 +5,6 @@ import style from "./NavBar.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getByName } from "../../redux/actions/getByNameActions";
 import {
-  orderByName,
   orderByNameOrRat,
 } from "../../redux/actions/orderByNameActions";
 import { cleanFiltered } from "../../redux/actions/cleanFilteredActions";
@@ -13,7 +12,6 @@ import { filteredBySource } from "../../redux/actions/filteredBySourceActions";
 import { filteredByGenre } from "../../redux/actions/filteredByGenresActions";
 import { filteredByPlatform } from "../../redux/actions/filteredByPlatformsActions";
 import {  setIsLoading } from "../../redux/actions/isLoadingAction";
-
 const NavBar = () => {
   const dispatch = useDispatch();
 
@@ -64,6 +62,7 @@ const NavBar = () => {
   const genres = useSelector((state) => state.genres);
   return (
     <div className={style.navBarContainer}>
+      
       <div className={style.imgNavBarContainer}>
         <Link to={"/"}>
           <img
@@ -71,6 +70,7 @@ const NavBar = () => {
             alt="logo"
           />
         </Link>
+
       </div>
       <div className={style.linkNavBarContainer}>
         <div className={style.createButtonContainer}>

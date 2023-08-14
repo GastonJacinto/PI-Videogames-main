@@ -17,13 +17,6 @@ async function postVideogameController(
     throw new Error("This game already exists. Try again using another name.");
   }
 
-  for (let i = 0; i < genres.length; i++) {
-    const genre = await Genres.findOne({
-      where: {
-        name: genres[i],
-      },
-    });
-  }
   const newGame = await Videogame.create({
     name,
     description,
@@ -31,7 +24,6 @@ async function postVideogameController(
     imagen,
     rating,
     released,
-    genres,
   });
 
  

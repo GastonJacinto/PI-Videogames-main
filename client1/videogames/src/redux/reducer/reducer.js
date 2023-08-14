@@ -3,7 +3,6 @@ import {
   GET_ALL_GAMES,
   ORDER,
   GET_BY_NAME,
-  POST_GAME,
   PAGINATE,
   GET_DETAIL,
   CLEAN_DETAIL,
@@ -214,13 +213,17 @@ function rootReducer(state = initialState, action) {
         gameDetail: action.payload,
       };
     case DELETE_DBGAME:
-      let filterDelete = state.filteredGames.filter(
+      let filterDelete = [...state.filteredGames].filter(
         (games) => games.id !== action.payload
       );
+      let noDeletedGames = [...state.backUp].filter(
+        (games) => games.id !== action.payload
+      );
+      
       return {
         ...state,
         currentPage:0,
-        backUp: filterDelete,
+        backUp:noDeletedGames,
         filteredGames: filterDelete,
         allGames: [...filterDelete].splice(0, cardPerPage),
       };

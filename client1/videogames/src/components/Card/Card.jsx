@@ -3,13 +3,7 @@ import style from "./Card.module.css";
 import { Link } from "react-router-dom";
 
 const Card = (props) => {
-  // const plats = props.platforms.map((plat, index) => {
-  //   if (index === props.platforms.length - 1) {
-  //     return (plat = `${plat}.`);
-  //   } else {
-  //     return (plat = `${plat}, `);
-  //   }
-  // });
+
   
   let genres = props.genres?.map((gen, index) => {
     if (index === props.genres?.length - 1) {
