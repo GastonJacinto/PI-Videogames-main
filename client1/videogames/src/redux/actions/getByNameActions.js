@@ -4,7 +4,7 @@ import { GET_BY_NAME,NOT_FOUND } from "./actionTypes";
 export function getByName(name) {
   return async function (dispatch) {
     try {
-      const { data } = await axios(`http://localhost:3001/videogames/name?name=${name}`);
+      const { data } = await axios(`/videogames/name?name=${name}`);
           dispatch({
         type: GET_BY_NAME,
         payload: data,

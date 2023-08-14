@@ -6,7 +6,7 @@ export function postGame(create) {
   return async function (dispatch) {
     try {
       const response = await axios.post(
-        "http://localhost:3001/videogames/",
+        "/videogames/",
         create
       );
       return alert(`Your game "${create.name}" has been succesfully created. `);

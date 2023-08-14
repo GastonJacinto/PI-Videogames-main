@@ -5,7 +5,7 @@ export function getGenres() {
   return async function (dispatch) {
     try {
      
-      const {data} = await axios("http://localhost:3001/genres/");
+      const {data} = await axios("/genres/");
 dispatch({
   type: GET_GENRES,
   payload: data
