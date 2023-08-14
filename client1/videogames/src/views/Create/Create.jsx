@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getGenres } from "../../redux/actions/getGenresActions";
 
 import { getAllGames } from "../../redux/actions/getAllGamesActions";
+import { setIsLoading } from "../../redux/actions/isLoadingAction";
 
 let gameCreated = false;
 
@@ -42,6 +43,7 @@ return()=>{
 
 if(gameCreated){
   dispatch(getAllGames())
+  dispatch(setIsLoading())
   gameCreated=false;
 }
 }
@@ -125,11 +127,8 @@ if(gameCreated){
   function handleSubmit(event) {
     gameCreated=true;
     const form = document.getElementById("form");
-
     event.preventDefault();
-
     form.reset();
-
     setAddGenres([]);
     setAddPlatforms([]);
     setErrors({
@@ -222,7 +221,7 @@ if(gameCreated){
   }
 
   return (
-    <div>
+    <div className={style.createContainer}>
       <div className={style.letsCreateContainer}>
         <h2>¡Let's create a game!</h2>
       </div>

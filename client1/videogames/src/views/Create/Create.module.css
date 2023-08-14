@@ -2,17 +2,26 @@
   font-family: "ValorantFont";
   src: url("C:\Users\Tonga\Desktop\PI\PI-Videogames-main\client1\videogames\fonts\Valorant Font.ttf");
 }
-
+.createContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
 .letsCreateContainer {
+height: 12rem;
+align-items: center;
+  width: 50%;
   color: rgb(0, 0, 0);
-  font-size: 2rem;
+  font-size: 3rem;
   font-family: "ValorantFont";
   display: flex;
   justify-content: center;
 }
-.letsCreateContainer:hover{
-  text-shadow: 15px 28px 7px rgba(0,0,0,0.6);
-  transition: .5s;
+.letsCreateContainer:hover {
+  text-shadow: 15px 28px 7px rgba(0, 0, 0, 0.6);
+  transition: 0.5s;
 }
 .createFormContainer form {
   display: flex;
@@ -34,18 +43,18 @@
 
 .submitFormButton {
   font-family: "ValorantFont";
-  
+
   border-radius: 20px;
   font-size: 1.5rem;
   margin: 1rem;
   width: 15rem;
   height: 3rem;
 }
-.submitFormButton:hover{
+.submitFormButton:hover {
   color: black;
-transform: scale(1.05);
-background-color: rgba(248, 248, 248, 0.397);
-  transition: .5s;
+  transform: scale(1.05);
+  background-color: rgba(248, 248, 248, 0.397);
+  transition: 0.5s;
 }
 
 .createFormLabels {
@@ -150,7 +159,7 @@ p {
   border-radius: 100%;
   background-color: rgba(97, 94, 94, 0.164);
 }
-.xGenreButton:hover{
+.xGenreButton:hover {
   background-color: black;
   transform: scale(1.2);
 }
@@ -158,7 +167,7 @@ p {
   display: flex;
   flex-direction: row-reverse;
 }
-.genRenders{
+.genRenders {
   display: flex;
   height: 1.5rem;
   text-align: center;
@@ -166,17 +175,17 @@ p {
   align-items: center;
   align-content: center;
 }
-.genreXButton{
-  margin: .3rem;
+.genreXButton {
+  margin: 0.3rem;
   display: flex;
   justify-content: center;
   align-content: center;
   text-align: center;
   background-color: grey;
   border-radius: 2rem;
-  font-size: .7rem;
+  font-size: 0.7rem;
   width: 1rem;
   height: 1rem;
   align-items: center;
-  border: white solid .1rem;
+  border: white solid 0.1rem;
 }

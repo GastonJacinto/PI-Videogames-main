@@ -1,12 +1,12 @@
 import React from 'react'
 import Card from '../Card/Card'
 import style from "./Cards.module.css"
+import Notfound from '../Notfound/Notfound'
 
 const Cards = ({props}) => {
-
   return (
     <div className={style.cardsContainer}>
-{props?.map((game)=>{
+{props.length?props?.map((game)=>{
   return (
     <Card 
     id={game.id}
@@ -18,7 +18,7 @@ const Cards = ({props}) => {
     />
   )
 }
-)}
+):<Notfound/>}
     </div>
   )
 }

@@ -15,17 +15,17 @@ import {
   NOT_FOUND,
   FILTERED_BY_GENRES,
   FILTERED_BY_PLATFORMS,
+  IS_LOADING,
 } from "../actions/actionTypes";
 
 let initialState = {
   allGames: [],
   filteredGames: [],
-  currentPage: 1,
+  currentPage: 0,
   gameDetail: {},
   filteredByName: [],
   backUp: [],
-  gameFound: "",
-  // isLoading: true,  LOADING
+  isLoading:false,
   platforms: [],
   genres: [],
 };
@@ -36,10 +36,11 @@ function rootReducer(state = initialState, action) {
     case GET_ALL_GAMES:
       return {
         ...state,
+        isLoading:false,
         backUp: action.payload,
         filteredGames: action.payload,
         allGames: [...action.payload].splice(0, cardPerPage),
-        currentPage: 1,
+        currentPage: 0,
       };
     case GET_GENRES:
       return {
@@ -52,9 +53,15 @@ function rootReducer(state = initialState, action) {
     case GET_BY_NAME:
       return {
         ...state,
+        isLoading: false,
         allGames: [...action.payload].splice(0, cardPerPage),
         filteredGames: action.payload,
-        currentPage: 1,
+        currentPage: 0,
+      };
+    case IS_LOADING:
+      return {
+        ...state,
+        isLoading: true,
       };
     case CLEAN_FILTERED:
       const search = document.getElementById("search");
@@ -68,13 +75,15 @@ function rootReducer(state = initialState, action) {
         ...state,
         filteredGames: [...state.backUp],
         allGames: [...state.backUp].splice(0, cardPerPage),
-        currentPage: 1,
+        currentPage: 0,
+        findingByName: false,
+        isLoading:false
       };
     case NOT_FOUND:
       return {
         ...state,
+        isLoading:false,
 
-        gameFound: action.payload,
       };
     case ORDER:
       if (action.payload === "asc") {
@@ -87,7 +96,7 @@ function rootReducer(state = initialState, action) {
           ...state,
           allGames: [...ascOrder].splice(0, cardPerPage),
           filteredGames: ascOrder,
-          currentPage: 1,
+          currentPage: 0,
         };
       } else if (action.payload === "desc") {
         const descOrder = [...state.filteredGames].sort((a, b) => {
@@ -99,7 +108,7 @@ function rootReducer(state = initialState, action) {
           ...state,
           allGames: [...descOrder].splice(0, cardPerPage),
           filteredGames: descOrder,
-          currentPage: 1,
+          currentPage: 0,
         };
       } else if (action.payload === "-") {
         const lowRating = [...state.filteredGames].sort((a, b) => {
@@ -111,7 +120,7 @@ function rootReducer(state = initialState, action) {
           ...state,
           allGames: [...lowRating].splice(0, cardPerPage),
           filteredGames: lowRating,
-          currentPage: 1,
+          currentPage: 0,
         };
       } else if (action.payload === "+") {
         const highRating = [...state.filteredGames].sort((a, b) => {
@@ -123,10 +132,9 @@ function rootReducer(state = initialState, action) {
           ...state,
           allGames: [...highRating].splice(0, cardPerPage),
           filteredGames: highRating,
-          currentPage: 1,
+          currentPage: 0,
         };
       }
-
       break;
     case FILTERED_BY_SOURCE:
       if (action.payload === "db") {
@@ -135,7 +143,7 @@ function rootReducer(state = initialState, action) {
           ...state,
           allGames: [...dbGames].splice(0, cardPerPage),
           filteredGames: dbGames,
-          currentPage: 1,
+          currentPage: 0,
         };
       } else if (action.payload === "api") {
         const apiGames = [...state.backUp].filter((game) => game.onDB !== true);
@@ -143,7 +151,7 @@ function rootReducer(state = initialState, action) {
           ...state,
           allGames: [...apiGames].splice(0, cardPerPage),
           filteredGames: apiGames,
-          currentPage: 1,
+          currentPage: 0,
         };
       }
       break;
@@ -161,11 +169,9 @@ function rootReducer(state = initialState, action) {
         ...state,
         allGames: [...genreFilter].splice(0, cardPerPage),
         filteredGames: genreFilter,
-        currentPage: 1,
+        currentPage: 0,
       };
-      
     case FILTERED_BY_PLATFORMS:
-      
       let platformFilter = [...state.backUp].filter((game) =>
         game.platforms.includes(action.payload)
       );
@@ -174,7 +180,7 @@ function rootReducer(state = initialState, action) {
         ...state,
         allGames: [...platformFilter].splice(0, cardPerPage),
         filteredGames: platformFilter,
-        currentPage: 1,
+        currentPage: 0,
       };
     case PAGINATE:
       const nextPage = state.currentPage + 1;
@@ -200,6 +206,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         gameDetail: action.payload,
+        isLoading:false,
       };
     case CLEAN_DETAIL:
       return {
@@ -212,6 +219,7 @@ function rootReducer(state = initialState, action) {
       );
       return {
         ...state,
+        currentPage:0,
         backUp: filterDelete,
         filteredGames: filterDelete,
         allGames: [...filterDelete].splice(0, cardPerPage),

@@ -11,10 +11,6 @@ async function getPlatformsController() {
   let allPlatforms=[];
   let plats = [];
 
-//!LOCAL STORAGE
-//!COMBOBOX
-
-//HAGO EL WHILE HASTA 120 PAGINAS PORQUE SE DEMORA 1MNUTO EN HACER EL GET
 
   while (page < 150) {
     const { data } = await axios(

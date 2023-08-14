@@ -11,8 +11,7 @@ export function getByName(name) {
       });
     } catch (error) {
       dispatch({
-        type: NOT_FOUND,
-        payload: true
+        type: NOT_FOUND
       })
       window.alert(error.response.data.error)
 

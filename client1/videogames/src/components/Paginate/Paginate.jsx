@@ -16,7 +16,7 @@ const Paginate = () => {
       Previous
     </button>
     <div className={style.currentPageContainer}>
-      <p className={style.currentPageP}>{currentPage}</p>
+      <p className={style.currentPageP}>{currentPage+1}</p>
     </div>
     <button className={style.pagButts} name="next" onClick={paginate}>
       Next

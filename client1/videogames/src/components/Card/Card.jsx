@@ -25,9 +25,9 @@ const Card = (props) => {
         <Link to={`/details/${props.id}`}>
           {" "}
           <h2 className={style.cardName}title={props.name}>
-            {props.name.length > 20
-              ? `${props.name?.slice(0, 18)}...`
-              : `${props.name}`}
+            {props.name.length > 18
+              ? `${props.name?.slice(0, 17)}...`
+              : `${props.name}`}  
           </h2>
         </Link>
       </div>

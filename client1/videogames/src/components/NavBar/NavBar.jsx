@@ -12,6 +12,7 @@ import { cleanFiltered } from "../../redux/actions/cleanFilteredActions";
 import { filteredBySource } from "../../redux/actions/filteredBySourceActions";
 import { filteredByGenre } from "../../redux/actions/filteredByGenresActions";
 import { filteredByPlatform } from "../../redux/actions/filteredByPlatformsActions";
+import {  setIsLoading } from "../../redux/actions/isLoadingAction";
 
 const NavBar = () => {
   const dispatch = useDispatch();
@@ -25,9 +26,11 @@ const NavBar = () => {
   function clean() {
     dispatch(cleanFiltered());
   }
-
+  
   function searchByName(name) {
-    dispatch(getByName(name));
+    dispatch(setIsLoading())
+    dispatch(getByName(name))
+ 
   }
 
   function filtering(event) {
@@ -36,17 +39,17 @@ const NavBar = () => {
       dispatch(filteredBySource(event.target.value));
     }
   }
-function filterGenre(event){
-  event.preventDefault();
-  if (event.target.value !== "FILTER BY GENRES") {
-    dispatch(filteredByGenre(event.target.value));
+  function filterGenre(event) {
+    event.preventDefault();
+    if (event.target.value !== "FILTER BY GENRES") {
+      dispatch(filteredByGenre(event.target.value));
+    }
   }
-}
-let allPlatforms;
+  let allPlatforms;
   if (localStorage.length) {
     allPlatforms = localStorage.getItem("plats").split(",");
   }
-  function filterPlatform (event){
+  function filterPlatform(event) {
     event.preventDefault();
     if (event.target.value !== "FILTER BY PLATFORMS") {
       dispatch(filteredByPlatform(event.target.value));
@@ -106,11 +109,7 @@ let allPlatforms;
           <option value="+">RATING ⬆</option>
           <option value="-">RATING ⬇</option>
         </select>
-        <select
-          className={style.navSelects}
-          onChange={filtering}
-          name="source"
-        >
+        <select className={style.navSelects} onChange={filtering} name="source">
           <option selected>FILTER BY SOURCE</option>
           <option value="db">DATABASE</option>
           <option value="api">API</option>
@@ -122,9 +121,12 @@ let allPlatforms;
           id=""
         >
           <option selected>FILTER BY GENRES</option>
-          {genres?.map((gen,index
-          ) => {
-            return <option key={index} value={gen.name}>{gen.name}</option>;
+          {genres?.map((gen, index) => {
+            return (
+              <option key={index} value={gen.name}>
+                {gen.name}
+              </option>
+            );
           })}
         </select>
         <select
@@ -134,14 +136,16 @@ let allPlatforms;
           id=""
         >
           <option selected>FILTER BY PLATFORMS</option>
-          {allPlatforms?.map((gen,index
-          ) => {
-            return <option key={index} value={gen}>{gen}</option>;
+          {allPlatforms?.map((gen, index) => {
+            return (
+              <option key={index} value={gen}>
+                {gen}
+              </option>
+            );
           })}
         </select>
       </div>
       <div className={style.searcbhBarContainer}>
-       
         <input
           className={style.navSelects}
           onChange={handleChange}
@@ -150,8 +154,8 @@ let allPlatforms;
           value={name}
           type="search"
         />
-         <button
-        className={style.searchButton}
+        <button
+          className={style.searchButton}
           onClick={() => {
             searchByName(name);
           }}

@@ -2,14 +2,17 @@
   font-family: "ValorantFont";
   src: url("C:\Users\Tonga\Desktop\PI\PI-Videogames-main\client1\videogames\fonts\Valorant Font.ttf");
 }
-
-.homeContainer {
+.homeContainer{
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  height: 90vh;
+  width: 100vw;
   justify-content: center;
-  width: 99vw;
-  height: 100;
+  align-items: center;
+  
+}
+.cardsHomeContainer {
+  width: 100vw;
+  height: 85vh;
 }
 
 .paginateButtons {
@@ -17,7 +20,7 @@
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  margin: .5rem;
+  margin: 0.5rem;
   height: 1.5rem;
 }
 .pagButts {
