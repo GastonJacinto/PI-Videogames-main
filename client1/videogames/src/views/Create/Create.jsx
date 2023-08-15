@@ -269,7 +269,7 @@ if(gameCreated){
           <label className={style.createFormLabels}>Platforms:</label>
           <select onChange={handleChange} name="platforms" id="platforms">
           {!platforms?.length ? (
-            <option selected="selected" disabled="disabled">Charging platforms, please wait.</option>
+            <option selected={true} disabled="disabled">Charging platforms, please wait.</option>
           ) : null}
             {platforms?.map((plat,i) => {
               return <option key={i}value={plat}>{plat}</option>;
