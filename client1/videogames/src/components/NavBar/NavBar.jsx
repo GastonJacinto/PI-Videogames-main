@@ -10,14 +10,14 @@ import { filteredBySource } from "../../redux/actions/filteredBySourceActions";
 import { filteredByGenre } from "../../redux/actions/filteredByGenresActions";
 import { filteredByPlatform } from "../../redux/actions/filteredByPlatformsActions";
 import { setIsLoading } from "../../redux/actions/isLoadingAction";
-import lofi from "../../audio/lofibackground.mp3";
+import lofi from "../../audio/lofi.mp3";
 
 const NavBar = () => {
   const dispatch = useDispatch();
 
   const [name, setName] = React.useState("");
 
-  const audioRef = useRef(null)
+  const audioRef = useRef(null);
   const [muted, setMuted] = React.useState(false);
 
   const handleMute = () => {
@@ -26,11 +26,13 @@ const NavBar = () => {
       setMuted(audioRef.current.muted);
     }
   };
-  useEffect(()=>{
+
+  useEffect(() => {
     if (audioRef.current) {
-      audioRef.current.volume = 0.05; 
+      audioRef.current.volume = 0.02;
     }
-  })
+  });
+
   function handleChange(event) {
     setName(event.target.value);
   }
@@ -45,34 +47,26 @@ const NavBar = () => {
   }
 
   function filtering(event) {
-    event.preventDefault();
-    if (event.target.value !== "FILTER BY SOURCE") {
-      dispatch(filteredBySource(event.target.value));
-    }
+    dispatch(filteredBySource(event.target.value));
   }
   function filterGenre(event) {
-    event.preventDefault();
-    if (event.target.value !== "FILTER BY GENRES") {
-      dispatch(filteredByGenre(event.target.value));
-    }
+    dispatch(filteredByGenre(event.target.value));
   }
-  let allPlatforms;
-  if (localStorage.length) {
-    allPlatforms = localStorage.getItem("plats").split(",");
-  }
+  // if (localStorage.plats) {
+  //   allPlatforms = localStorage.getItem("plats").split(",");
+  // }
   function filterPlatform(event) {
-    event.preventDefault();
-    if (event.target.value !== "FILTER BY PLATFORMS") {
-      dispatch(filteredByPlatform(event.target.value));
-    }
+
+    dispatch(filteredByPlatform(event.target.value));
   }
   function orderBy(event) {
-    event.preventDefault();
-    if (event.target.value !== "ORDER BY...") {
-      dispatch(orderByNameOrRat(event.target.value));
-    }
+    dispatch(orderByNameOrRat(event.target.value));
   }
+
   const genres = useSelector((state) => state.genres);
+  const platforms = useSelector((state)=>state.platforms)
+
+  console.log(platforms)
   return (
     <div className={style.navBarContainer}>
       <div className={style.imgNavBarContainer}>
@@ -91,7 +85,6 @@ const NavBar = () => {
           autoPlay
           loop
         />
-
       </div>
       <div className={style.linkNavBarContainer}>
         <div className={style.createButtonContainer}>
@@ -165,10 +158,12 @@ const NavBar = () => {
           <option selected="true" disabled="disabled">
             FILTER BY PLATFORMS
           </option>
-          {!allPlatforms?.length ? (
-            <option value="">Charging platforms...</option>
-          ) : null}
-          {allPlatforms?.map((gen, index) => {
+          {/* {!platforms?.length ? (
+            <option disabled="disabled">
+              Charging platforms, please wait.
+            </option>
+          ) : null} */}
+          {platforms?.map((gen, index) => {
             return (
               <option key={index} value={gen}>
                 {gen}
@@ -195,11 +190,9 @@ const NavBar = () => {
         >
           🔎
         </button>
-        
       </div>
-      <button className={style.muteButton}
-         onClick={handleMute}>
-        {muted ? '🔈' : '🔊'}
+      <button className={style.muteButton} onClick={handleMute}>
+        {muted ? "🔈" : "🔊"}
       </button>
     </div>
   );

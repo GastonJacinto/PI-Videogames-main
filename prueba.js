@@ -7,4 +7,12 @@ if(gen.name==="Action"){
 }
 })
 
-console.log(filteredGenres)
+
+if (name === "arrCountry") {
+  if (stateForm.arrCountry === "")
+    setError({
+      ...error,
+      country: "ERRORRRRR",
+    });
+  else setError({ ...error, country: "" });
+}

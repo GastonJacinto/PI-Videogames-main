@@ -215,7 +215,7 @@ if(gameCreated){
 
   //!ACA HAGO EL GETITEM Y USO LAS PLATAFORMAS
   let allPlatforms;
-  if (localStorage.length) {
+  if (localStorage.plats) {
     allPlatforms = localStorage.getItem("plats").split(",");
   }
 
@@ -267,6 +267,9 @@ if(gameCreated){
           <br />
           <label className={style.createFormLabels}>Platforms:</label>
           <select onChange={handleChange} name="platforms" id="platforms">
+          {!allPlatforms?.length ? (
+            <option selected="selected" disabled="disabled">Charging platforms, please wait.</option>
+          ) : null}
             {allPlatforms?.map((plat) => {
               return <option value={plat}>{plat}</option>;
             })}

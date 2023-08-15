@@ -1,22 +1,31 @@
 import React, { useEffect } from "react";
 import style from "./Landing.module.css";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPlatforms } from "../../redux/actions/getPlatformsActions";
-let requesting = false;
+import { getAllGames } from "../../redux/actions/getAllGamesActions";
+import { setIsLoading } from "../../redux/actions/isLoadingAction";
+// let requesting = false;
 const Landing = () => {
   const dispatch = useDispatch();
+  const allGames = useSelector((state) => state.allGames);
+  const platforms = useSelector((state) => state.platforms);
 
   useEffect(() => {
 
-    if (!requesting && !localStorage.plats) {
-      requesting=true
-      dispatch(getPlatforms());
+    if(!allGames.length){
+      dispatch(getAllGames());
+      dispatch(setIsLoading())
     }
+    if(!platforms.length){
+    dispatch(getPlatforms())
+    }
+    // if (!requesting && !localStorage.plats) {
+    //   requesting=true
+    //   dispatch(getPlatforms());
+    //   console.log("Charging")
+    // }
     return ()=>{
-      if(requesting){
-        
-      }
     }
   });
 

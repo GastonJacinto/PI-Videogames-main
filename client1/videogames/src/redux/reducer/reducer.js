@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { useDispatch } from "react-redux";
 import {
   GET_ALL_GAMES,
   ORDER,
@@ -51,9 +50,10 @@ function rootReducer(state = initialState, action) {
         genres: action.payload,
       };
     case GET_PLATFORMS:
-      localStorage.setItem("plats", action.payload);
-      window.alert("Platforms have been charged. Please, refresh the page.")
-      return { ...state };
+      // localStorage.setItem("plats", action.payload);
+      return { ...state,
+      platforms: action.payload
+      };
     case GET_BY_NAME:
       return {
         ...state,
@@ -179,6 +179,7 @@ function rootReducer(state = initialState, action) {
         currentPage: 0,
       };
     case FILTERED_BY_PLATFORMS:
+   
       let platformFilter = [...state.backUp].filter((game) =>
         game.platforms.includes(action.payload)
       );

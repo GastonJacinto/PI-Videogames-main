@@ -11,8 +11,9 @@ async function getPlatformsController() {
   let allPlatforms=[];
   let plats = [];
 
-
-  while (page < 150) {
+//Para obtener las plataformas de los 100 juegos cambio la pagina a solo 4 peticiones.
+//Para obtener todas las plataformas cambio la pagina a 150 peticiones.
+  while (page < 4) {
     const { data } = await axios(
       `https://api.rawg.io/api/games?key=${API_KEY}&page_size=100&page=${page}`
     );
