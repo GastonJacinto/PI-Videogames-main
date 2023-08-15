@@ -158,11 +158,11 @@ const NavBar = () => {
           <option selected="true" disabled="disabled">
             FILTER BY PLATFORMS
           </option>
-          {/* {!platforms?.length ? (
+          {!platforms?.length ? (
             <option disabled="disabled">
               Charging platforms, please wait.
             </option>
-          ) : null} */}
+          ) : null}
           {platforms?.map((gen, index) => {
             return (
               <option key={index} value={gen}>
