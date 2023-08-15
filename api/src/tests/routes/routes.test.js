@@ -1,7 +1,6 @@
-const server = require("../app");
+const server = require("../../app");
 const session = require("supertest");
 const agent = session(server);
-let acc = 1;
 
 describe("ROUTES TESTS", () => {
   describe("GET /videogames/:id", () => {
