@@ -10,8 +10,7 @@ import axios from "axios"
 
 //!! CUANDO TRABAJO LOCALMENTE, DESCOMENTO LA DE ARRIBA Y VICEVERSA.
 // axios.defaults.baseURL= "http://localhost:3001"
-axios.defaults.baseURL= "https://api-production-19f6.up.railway.app"
-
+axios.defaults.baseURL= "https://api-production-51ff.up.railway.app"
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 
