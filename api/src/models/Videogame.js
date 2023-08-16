@@ -45,7 +45,7 @@ module.exports = (sequelize) => {
     },
     rating:{
       type: DataTypes.DECIMAL,
-      allowNull: true
+      allowNull: false
     },
     onDB:{
       type: DataTypes.BOOLEAN,
