@@ -13,7 +13,6 @@ const Create = () => {
 
   const dispatch = useDispatch();
 
-  console.log("holas")
   const [create, setCreate] = React.useState({
     name: "",
     imagen: "",
