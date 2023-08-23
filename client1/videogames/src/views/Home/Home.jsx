@@ -11,6 +11,7 @@ import { setIsLoading } from "../../redux/actions/isLoadingAction";
 import Loader from "../../components/Loader/Loader";
 import { getPlatforms } from "../../redux/actions/getPlatformsActions";
 function Home() {
+  
   const dispatch = useDispatch();
 
   const allGames = useSelector((state) => state.allGames);
@@ -18,6 +19,7 @@ function Home() {
   const platforms = useSelector((state) => state.platforms);
   const isLoading = useSelector((state) => state.isLoading);
   React.useEffect(() => {
+    
     if (!allGames.length) {
       dispatch(getAllGames());
       dispatch(setIsLoading());

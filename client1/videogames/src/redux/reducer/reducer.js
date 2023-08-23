@@ -24,8 +24,8 @@ let initialState = {
   gameDetail: {},
   filteredByName: [],
   backUp: [],
-  isLoading:false,
-  notFound:false,
+  isLoading: false,
+  notFound: false,
   platforms: [],
   genres: [],
 };
@@ -34,32 +34,37 @@ function rootReducer(state = initialState, action) {
   const cardPerPage = 15;
   switch (action.type) {
     case GET_ALL_GAMES:
-      
-        return {
-          ...state,
-          isLoading:false,
-          backUp: action.payload,
-          filteredGames: action.payload,
-          allGames: [...action.payload].splice(0, cardPerPage),
-          currentPage: 0,
-        };    
-        case GET_GENRES:
+
+    const platforms = action.payload.map((game)=>{
+      return game.platforms
+    })
+
+    // A ESE PLATFORMS LE HACES UN NEW SET PARA SACAR LAS REPETIDAS, Y te queda un array con todas las plataformas
+    // y lo guardas en un estado global para despues poder usarlo
+    
+      return {
+        ...state,
+        backUp: action.payload,
+        filteredGames: action.payload,
+        allGames: [...action.payload].splice(0, cardPerPage),
+        currentPage: 0,
+        isLoading: false,
+      };
+    case GET_GENRES:
       return {
         ...state,
         genres: action.payload,
       };
     case GET_PLATFORMS:
       // localStorage.setItem("plats", action.payload);
-      return { ...state,
-      platforms: action.payload
-      };
+      return { ...state, platforms: action.payload };
     case GET_BY_NAME:
       return {
         ...state,
-        isLoading: false,
         allGames: [...action.payload].splice(0, cardPerPage),
         filteredGames: action.payload,
         currentPage: 0,
+        isLoading: false,
       };
     case IS_LOADING:
       return {
@@ -79,16 +84,12 @@ function rootReducer(state = initialState, action) {
         filteredGames: [...state.backUp],
         allGames: [...state.backUp].splice(0, cardPerPage),
         currentPage: 0,
-        findingByName: false,
-        isLoading:false,
-        notFound: false,
+        isLoading: false,
       };
     case NOT_FOUND:
       return {
         ...state,
-        isLoading:false,
-        notFound:true,
-
+        isLoading: false,
       };
     case ORDER:
       if (action.payload === "asc") {
@@ -161,7 +162,6 @@ function rootReducer(state = initialState, action) {
       }
       break;
     case FILTERED_BY_GENRES:
-
       let genreFilter = [];
 
       [...state.backUp].forEach((game) => {
@@ -178,7 +178,6 @@ function rootReducer(state = initialState, action) {
         currentPage: 0,
       };
     case FILTERED_BY_PLATFORMS:
-   
       let platformFilter = [...state.backUp].filter((game) =>
         game.platforms.includes(action.payload)
       );
@@ -204,6 +203,7 @@ function rootReducer(state = initialState, action) {
       } else if (action.payload === "prev" && prevPage < 0) {
         return { ...state };
       }
+
       return {
         ...state,
         allGames: [...state.filteredGames].splice(index, cardPerPage),
@@ -213,7 +213,7 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         gameDetail: action.payload,
-        isLoading:false,
+        isLoading: false,
       };
     case CLEAN_DETAIL:
       return {
@@ -227,14 +227,13 @@ function rootReducer(state = initialState, action) {
       let noDeletedGames = [...state.backUp].filter(
         (games) => games.id !== action.payload
       );
-      
+
       return {
         ...state,
-        currentPage:0,
-        backUp:noDeletedGames,
+        currentPage: 0,
+        backUp: noDeletedGames,
         filteredGames: filterDelete,
         allGames: [...filterDelete].splice(0, cardPerPage),
-        deleted:true
       };
     default:
       return {

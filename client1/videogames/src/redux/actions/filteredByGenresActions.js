@@ -9,7 +9,7 @@ export function filteredByGenre(genre) {
   payload: genre
 })
     } catch (error) {
-      console.log(error)
+      window.alert(error.response.data.error)
     }
   };
 }

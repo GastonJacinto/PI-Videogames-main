@@ -9,7 +9,7 @@ export function filteredBySource(source) {
   payload: source
 })
     } catch (error) {
-      console.log(error)
+      window.alert(error.response.data.error)
     }
   };
 }

@@ -58,7 +58,7 @@ async function getVideogameByNameController(gameName) {
   if (filteredGames.length) {
     return filteredGames.slice(0, 15);
   } else {
-    throw new Error("There are no games with that name");
+    throw new Error("There are no games with that name.");
   }
 }
 

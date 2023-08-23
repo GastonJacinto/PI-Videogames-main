@@ -13,6 +13,7 @@ import { setIsLoading } from "../../redux/actions/isLoadingAction";
 import Loader from "../../components/Loader/Loader";
 
 const Details = () => {
+  
   const dispatch = useDispatch();
   const id = useParams();
   const gameDetail = useSelector((state) => state.gameDetail);

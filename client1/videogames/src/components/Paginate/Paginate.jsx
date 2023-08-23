@@ -5,18 +5,24 @@ import { nextOrPrev } from '../../redux/actions/nextOrPrevActions';
 const Paginate = () => {
   const currentPage = useSelector((state) => state.currentPage);
   const dispatch = useDispatch();
+let pages;
+
+const filteredGames = useSelector((state)=>state.filteredGames);
+
+pages = (filteredGames.length/15);
 
   const paginate = (event) => {
     dispatch(nextOrPrev(event.target.name));
   };
+
   return (
    <div className={style.paginateContainer}>
      <div className={style.paginateButtons}>
     <button className={style.pagButts} name="prev" onClick={paginate}>
       Previous
-    </button>
+    </button> 
     <div className={style.currentPageContainer}>
-      <p className={style.currentPageP}>{currentPage+1}</p>
+      <p className={style.currentPageP}>{currentPage+1} of {Math.floor(pages)+1}</p>
     </div>
     <button className={style.pagButts} name="next" onClick={paginate}>
       Next

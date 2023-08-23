@@ -1,7 +1,9 @@
 const postVideogameController = require("../controllers/postVideogameController");
 
 async function postVideogameHandler(req, res) {
+
   const { name, released,description,platforms, imagen, rating,genres } = req.body;
+  
   try {
     const response = await postVideogameController(
       name,

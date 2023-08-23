@@ -9,7 +9,7 @@ export function filteredByPlatform(platform) {
   payload: platform
 })
     } catch (error) {
-      console.log(error)
+      window.alert(error.response.data.error)
     }
   };
 }

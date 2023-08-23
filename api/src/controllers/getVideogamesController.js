@@ -3,12 +3,8 @@ require("dotenv").config();
 const { API_KEY } = process.env;
 const { Videogame,Genres } = require("../db");
 
-const platforms = new Set()
-
-let plats = [];
-let allPlatforms=[];
-
 async function getVideogamesController() {
+
   const dbGames = await Videogame.findAll({
     include:[
       {
@@ -34,7 +30,7 @@ async function getVideogamesController() {
         return (name = platf.platform.name);
       });
 
-      plats.push(insertPlatforms)
+ 
 
       const insertGenres = game.genres.map((gen) => {
         return {name:gen.name}
@@ -55,15 +51,10 @@ async function getVideogamesController() {
     page += 1;
   }
   
-plats.forEach((p)=>{
-  p.forEach((pl)=>{
-    platforms.add(pl)
-  })
-})
- allPlatforms = [...platforms]
+
 
   const allGames = dbGames.concat(games);
   return allGames;
 }
 
-module.exports = { getVideogamesController,allPlatforms};
+module.exports = { getVideogamesController};

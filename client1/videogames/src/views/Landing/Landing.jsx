@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPlatforms } from "../../redux/actions/getPlatformsActions";
 import { getAllGames } from "../../redux/actions/getAllGamesActions";
-import { setIsLoading } from "../../redux/actions/isLoadingAction";
 // let requesting = false;
 const Landing = () => {
   const dispatch = useDispatch();
@@ -15,8 +14,8 @@ const Landing = () => {
 
     if(!allGames.length){
       dispatch(getAllGames());
-      dispatch(setIsLoading())
     }
+    
     if(!platforms.length){
     dispatch(getPlatforms())
     }

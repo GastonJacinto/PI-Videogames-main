@@ -10,8 +10,10 @@ import { setIsLoading } from "../../redux/actions/isLoadingAction";
 let gameCreated = false;
 
 const Create = () => {
+
   const dispatch = useDispatch();
 
+  console.log("holas")
   const [create, setCreate] = React.useState({
     name: "",
     imagen: "",
@@ -200,7 +202,7 @@ if(gameCreated){
       if (isNaN(parseInt(state.rating)))
         setErrors({
           ...errors,
-          rating: "Rating must be a number between 1 and 5.",
+          rating: "Please select a rating for your game.",
         });
       else setErrors({ ...errors, rating: "" });
     }

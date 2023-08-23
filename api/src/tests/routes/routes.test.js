@@ -24,8 +24,8 @@ describe("GET /videogames/name?",()=>{
 
   it("Should response with status 400 if there are no games with that name.", async()=>{
     expect((await agent.get("/videogames/name?name=nogamename")).status).toEqual(400)
-  
   })
+  
 })
 describe("GET /genres", ()=>{
   it("Should map all the genres(19) from the API.", async()=>{
